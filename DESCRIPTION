@@ -1,0 +1,22 @@
+Package: tRicks
+Title: Tools for saving and versioning plots, tables, and diagrams.
+Version: 0.0.0.9000
+Authors@R: 
+    person("David", "RS", , "first.last@example.com", role = c("aut", "cre"))
+Description: Provides utilities for saving R plots and other objects in multiple formats
+    and applying simple version control to the outputs. Designed for use in 
+    reproducible workflows and document generation pipelines.
+Depends:
+    R (>= 4.3.0)
+Imports:
+    ggplot2,
+    gt,
+    plotly,
+    tools,
+    digest,
+    htmlwidgets,
+    grid
+License: MIT
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
