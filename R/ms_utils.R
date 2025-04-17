@@ -88,11 +88,13 @@ save_by_format <- function(object,
 # Helper: Convert dimensions to inches with scaling
 convert_dims <- function(width, height, units, scale) {
   units <- tolower(units)
-  if (units != "in") {
-    width <- grid::convertUnit(grid::unit(width, units), "inches", valueOnly = TRUE)
-    height <- grid::convertUnit(grid::unit(height, units), "inches", valueOnly = TRUE)
+  if (units != "in" && !is.null(width)) {
+    width <- grid::convertUnit(grid::unit(width, units), "inches", valueOnly = TRUE) * scale
   }
-  list(width = width * scale, height = height * scale)
+  if (units != "in" && !is.null(height)) {
+   height <- grid::convertUnit(grid::unit(height, units), "inches", valueOnly = TRUE) * scale
+  }
+  list(width = width, height = height)
 }
 
 #' @name save_image
@@ -163,13 +165,14 @@ save_image <- function(filename,
   if ((fallback || engine == "rgraphics") && 
      (exists(format, where = asNamespace("grDevices"), 
              mode = "function", inherits = FALSE))) {
+   
     dims <- convert_dims(width, height, units, scale)
 
     # Obtain the function from the package namespace
     saveimg_fun <- get(format, envir = asNamespace("grDevices"))
     # Define your arguments in a list
     args <- list(file = filename, filename = filename, width = dims$width, 
-                 height = dims$height, units = "in", res = dpi)
+                 height = dims$height, res = dpi)
     # Remove unnecessary arguments
     args <- args[names(args) %in% names(formals(saveimg_fun))]
     # Execute the function call
