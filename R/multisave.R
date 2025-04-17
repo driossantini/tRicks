@@ -104,6 +104,7 @@ multisave <- function(object,
                    units = units,
                    dpi = dpi,
                    engine = engine,
+                   verbose = verbose,
                    ...)
     
     # Record the file path using the format as the list name.
