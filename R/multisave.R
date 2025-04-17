@@ -60,6 +60,7 @@ multisave <- function(object,
                       units =  c("in", "cm", "mm", "pt"),
                       dpi = 300,
                       engine = c("gg", "rgraphics"),
+                      verboe = FALSE,
                       ...) {
 
   units <- match.arg(units)

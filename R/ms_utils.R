@@ -34,6 +34,7 @@ save_by_format <- function(object,
                            units,
                            dpi,
                            engine,
+                           verbose,
                            ...) {
   switch(
     fmt,
@@ -45,6 +46,7 @@ save_by_format <- function(object,
                  height = height,
                  units = units,
                  engine = engine,
+                 verbose = verbose,
                  ...)
     },
     
@@ -56,6 +58,7 @@ save_by_format <- function(object,
                  height = height,
                  units = units,
                  engine = engine,
+                 verbose = verbose,
                  ...)
     },
 
@@ -71,6 +74,7 @@ save_by_format <- function(object,
                  height = height,
                  units = units,
                  engine = engine,
+                 verbose = verbose,
                  ...)
     },
     
@@ -94,7 +98,10 @@ convert_dims <- function(width, height, units, scale) {
   if (units != "in" && !is.null(height)) {
    height <- grid::convertUnit(grid::unit(height, units), "inches", valueOnly = TRUE) * scale
   }
-  list(width = width, height = height)
+  if any(!is.null(width), !is.null(height)) {
+    units <- "in"
+  }
+  list(width = width, height = height, units = units)
 }
 
 #' @name save_image
@@ -131,6 +138,7 @@ save_image <- function(filename,
                        units = c("in", "cm", "mm", "pt"),
                        dpi = 300,
                        engine = c("gg", "rgraphics"),
+                       verbose = FALSE,
                        ... ) {
  
   format <- tolower(tools::file_ext(filename))
@@ -151,7 +159,7 @@ save_image <- function(filename,
              units = units,
              dpi = dpi,
              ...)
-      print("using ggsave")
+      if (verbose) print("Plotting with ggsave")
     }, error = function(e) {
       message("ggsave() failed: ", conditionMessage(e), 
               "\nFalling back to base R graphics")
@@ -165,20 +173,27 @@ save_image <- function(filename,
   if ((fallback || engine == "rgraphics") && 
      (exists(format, where = asNamespace("grDevices"), 
              mode = "function", inherits = FALSE))) {
-   
-    dims <- convert_dims(width, height, units, scale)
 
+    # If the format is a vector graphics type, 
+    # calculate dimensions and plotting arguments
+    if (any(grepl(paste(c("pdf", "svg", "ps"), collapse = "|"), format))) {
+      dims <- convert_dims(width, height, units, scale)
+      # Define your arguments in a list
+      args <- list(file = filename, filename = filename, width = dims$width, 
+                   height = dims$height, res = dpi, units = dims$units)
+    } else {
+      args <- list(file = filename, filename = filename, width = width, 
+                   height = height, res = dpi, units = units)
+    }
+    
     # Obtain the function from the package namespace
     saveimg_fun <- get(format, envir = asNamespace("grDevices"))
-    # Define your arguments in a list
-    args <- list(file = filename, filename = filename, width = dims$width, 
-                 height = dims$height, res = dpi)
     # Remove unnecessary arguments
     args <- args[names(args) %in% names(formals(saveimg_fun))]
     # Execute the function call
     do.call(saveimg_fun, args)
     plot(object)
     dev.off()
-    print("using rgraphics")
+    if (verbose) print("Plotting with R graphics")
   }
 }
