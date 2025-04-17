@@ -15,14 +15,14 @@ version_control(
 \item{current_files}{A named vector or list of file paths to the saved files.
 For instance, names might be \code{"png"}, \code{"pdf"}, \code{"rds"}.}
 
-\item{hidden}{Logical; if \code{TRUE}, the versioning directory will be created as a hidden folder
-(by prepending a dot to the \code{version_dir} name). Defaults to \code{FALSE}.}
-
-\item{run_versioning}{Logical indicating whether to perform version control.
+\item{versioning}{Logical indicating whether to perform version control.
 Defaults to \code{TRUE}. If \code{FALSE}, the function simply passes through the input.}
 
-\item{version_dir}{Character string specifying the subdirectory to store versioned files.
+\item{vers_dir}{Character string specifying the subdirectory to store versioned files.
 This folder will be created inside the parent of the format subfolders.}
+
+\item{hidden}{Logical; if \code{TRUE}, the versioning directory will be created as a hidden folder
+(by prepending a dot to the \code{version_dir} name). Defaults to \code{FALSE}.}
 }
 \value{
 Invisibly returns the original \code{current_files}.

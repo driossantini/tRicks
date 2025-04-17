@@ -13,6 +13,7 @@ save_image(
   units = c("in", "cm", "mm", "pt"),
   dpi = 300,
   engine = c("gg", "rgraphics"),
+  verbose = FALSE,
   ...
 )
 }
@@ -35,6 +36,9 @@ Must be one of \code{"in"}, \code{"cm"}, \code{"mm"}, or \code{"pt"}.}
 \item{engine}{Character string specifying the engine to use for saving.
 Either \code{"gg"} (ggplot2) or \code{"rgraphics"} (base R). If \code{"gg"} is selected
 but the object is not compatible, base graphics will be used as a fallback.}
+
+\item{verbose}{Logical; if \code{TRUE}, enables debugging messages such as the selected engine
+and additional processing information.}
 
 \item{...}{Additional arguments passed to the underlying plotting function.}
 }

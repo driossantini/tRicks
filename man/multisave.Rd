@@ -15,6 +15,7 @@ multisave(
   units = c("in", "cm", "mm", "pt"),
   dpi = 300,
   engine = c("gg", "rgraphics"),
+  verbose = FALSE,
   ...
 )
 }
@@ -47,6 +48,11 @@ raster-based output and is ignored for vector outputs such as PDF.}
 \item{engine}{Character string indicating the plotting engine to use. For instance, if set to \code{"gg"},
 the function will attempt to use \code{ggsave()} for ggplot-based objects, and if that fails
 it will fall back to base R graphics.}
+
+\item{verbose}{Logical; if \code{TRUE}, enables debugging messages such as the selected engine
+and additional processing information.}
+
+\item{...}{Additional arguments passed to the underlying save functions.}
 }
 \value{
 A named list of file paths for each saved format that can be piped to \code{version_control()}.
@@ -70,7 +76,8 @@ with the given base name.
                          height = 4,
                          units = "in",
                          dpi = 300,
-                         engine = "gg")
+                         engine = "gg",
+                         verbose = FALSE)
 
   # Optionally, pass the resulting file paths to version_control() for versioning:
   my_images |> version_control(TRUE, "versions")

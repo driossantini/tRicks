@@ -21,9 +21,9 @@
 #'
 #' @param current_files A named vector or list of file paths to the saved files.
 #'        For instance, names might be `"png"`, `"pdf"`, `"rds"`.
-#' @param run_versioning Logical indicating whether to perform version control.
+#' @param versioning Logical indicating whether to perform version control.
 #'        Defaults to `TRUE`. If `FALSE`, the function simply passes through the input.
-#' @param version_dir Character string specifying the subdirectory to store versioned files.
+#' @param vers_dir Character string specifying the subdirectory to store versioned files.
 #'        This folder will be created inside the parent of the format subfolders.
 #' @param hidden Logical; if `TRUE`, the versioning directory will be created as a hidden folder
 #'        (by prepending a dot to the `version_dir` name). Defaults to `FALSE`.

@@ -29,6 +29,9 @@
 #' @param engine Character string indicating the plotting engine to use. For instance, if set to `"gg"`, 
 #'               the function will attempt to use `ggsave()` for ggplot-based objects, and if that fails 
 #'               it will fall back to base R graphics.
+#' @param verbose Logical; if `TRUE`, enables debugging messages such as the selected engine 
+#'                and additional processing information.
+#' @param ... Additional arguments passed to the underlying save functions.
 #'
 #' @return A named list of file paths for each saved format that can be piped to `version_control()`.
 #'
@@ -44,7 +47,8 @@
 #'                          height = 4,
 #'                          units = "in",
 #'                          dpi = 300,
-#'                          engine = "gg")
+#'                          engine = "gg",
+#'                          verbose = FALSE)
 #'
 #'   # Optionally, pass the resulting file paths to version_control() for versioning:
 #'   my_images |> version_control(TRUE, "versions")
@@ -60,7 +64,7 @@ multisave <- function(object,
                       units =  c("in", "cm", "mm", "pt"),
                       dpi = 300,
                       engine = c("gg", "rgraphics"),
-                      verboe = FALSE,
+                      verbose = FALSE,
                       ...) {
 
   units <- match.arg(units)
@@ -69,11 +73,6 @@ multisave <- function(object,
   # Create the main output directory if it doesn't exist.
   if (!dir.exists(output_dir)) {
     dir.create(output_dir, recursive = TRUE)
-  }
-
-  if (is.null(formats)) {
-    object_type <- detect_object_type(object)
-    formats <- get_default_formats(object_type)
   }
   
   # Initialise an empty list to store file paths for each format.

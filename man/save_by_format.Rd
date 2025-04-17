@@ -14,6 +14,7 @@ save_by_format(
   units,
   dpi,
   engine,
+  verbose,
   ...
 )
 }
@@ -37,6 +38,9 @@ Options include \code{"in"}, \code{"cm"}, \code{"mm"}, or \code{"pt"}.}
 
 \item{engine}{Character string indicating the rendering engine to use. For instance,
 \code{"gg"} will attempt to use \code{ggsave} for ggplot objects.}
+
+\item{verbose}{Logical; if \code{TRUE}, enables debugging messages such as the selected engine
+and additional processing information.}
 
 \item{...}{Additional arguments passed to the underlying save function.}
 }

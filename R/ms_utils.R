@@ -1,6 +1,7 @@
 #' @import ggplot2
 #' @import grid
 #' @import gt
+#' @import grDevices
 #' 
 #' @name save_by_format
 #' @title Save object by format
@@ -20,6 +21,8 @@
 #' @param dpi Resolution in dots per inch, relevant for raster output.
 #' @param engine Character string indicating the rendering engine to use. For instance,
 #'               `"gg"` will attempt to use `ggsave` for ggplot objects.
+#' @param verbose Logical; if `TRUE`, enables debugging messages such as the selected engine 
+#'                and additional processing information.
 #' @param ... Additional arguments passed to the underlying save function.
 #'
 #' @return No return value; the function is called for its side effects.
@@ -98,7 +101,7 @@ convert_dims <- function(width, height, units, scale) {
   if (units != "in" && !is.null(height)) {
    height <- grid::convertUnit(grid::unit(height, units), "inches", valueOnly = TRUE) * scale
   }
-  if any(!is.null(width), !is.null(height)) {
+  if (any(!is.null(width), !is.null(height))) {
     units <- "in"
   }
   list(width = width, height = height, units = units)
@@ -125,6 +128,8 @@ convert_dims <- function(width, height, units, scale) {
 #' @param engine Character string specifying the engine to use for saving.
 #'        Either `"gg"` (ggplot2) or `"rgraphics"` (base R). If `"gg"` is selected
 #'        but the object is not compatible, base graphics will be used as a fallback.
+#' @param verbose Logical; if `TRUE`, enables debugging messages such as the selected engine 
+#'                and additional processing information.
 #' @param ... Additional arguments passed to the underlying plotting function.
 #'
 #' @return No return value; the function is called for its side effects.
